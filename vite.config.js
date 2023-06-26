@@ -3,9 +3,17 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
+import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src")
+    }
+  },
+  build: {  
+    sourcemap: true
+  },
   // 在codesandbox中需要用443来保证开发时不会重复刷新
   // server: {
   //   hmr: {

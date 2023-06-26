@@ -1,5 +1,5 @@
 import { RectNode, RectNodeModel, h } from "@logicflow/core"
-import { getBytesLength } from '../util'
+// import { getBytesLength } from '../util'
 
 
 class RedNodeModel extends RectNodeModel {
@@ -8,13 +8,15 @@ class RedNodeModel extends RectNodeModel {
    */
   initNodeData(data) {
     super.initNodeData(data)
-    this.width = 100;
-    this.height = 30;
-    this.radius = 5;
-    // this.text.editable = false;
+    this.width = 160;
+    this.height = 60;
+    this.radius = 10;
+    // this.text.editable = true;
     this.text.x = this.x + 10;
-    this.iconPosition = ''; // icon位置，left表示左边，'right'表示右边
+    // this.iconPosition = 'right'; // icon位置，left表示左边，'right'表示右边
     this.defaultFill = '#a6bbcf';
+    this.properties.hasCommonProperty = true;  //有没有公共属性
+    this.properties.hasCustomProperty = true;  //有没有自定义属性，为了方便后续做是否弹窗判断
   }
   getData () {
     const data = super.getData()
@@ -24,16 +26,16 @@ class RedNodeModel extends RectNodeModel {
   /**
    * 动态设置初始化数据
    */
-  setAttributes() {
-    if (this.text.value) {
-      let width = 30 + getBytesLength(this.text.value) * 9;
-      width = Math.ceil(width / 20) * 20;
-      if (width < 100) {
-        width = 100;
-      }
-      this.width = width;
-    }
-  }
+//   setAttributes() {
+//     if (this.text.value) {
+//       let width = 30 + getBytesLength(this.text.value) * 9;
+//       width = Math.ceil(width / 20) * 20;
+//       if (width < 100) {
+//         width = 100;
+//       }
+//       this.width = width;
+//     }
+//   }
   updateText(val) {
     super.updateText(val)
     this.setAttributes();
@@ -103,6 +105,24 @@ class RedNode extends RectNode {
   getIcon () {
     return null;
   }
+  getIconBaseAttrs () {
+    const {
+      x,
+      y,
+      width,
+      height,
+    } = this.props.model;
+    const IconSize = {
+      width: 24,
+      height: 22
+    }
+    return {
+      x: - width / 2 + 10,
+      y: -IconSize.height / 2,
+      width: IconSize.width,
+      height: IconSize.height,
+    }
+  }
   getShape() {
     const {
       text,
@@ -133,21 +153,18 @@ class RedNode extends RectNode {
           transform: `translate(${x}, ${y})`
         }, [
           h('rect', {
-            x: - width / 2,
-            y: - height / 2,
-            width: 30,
-            height: 30,
+           ...this.getIconBaseAttrs(),
             fill: '#000',
             fillOpacity: 0.05,
             stroke: 'none',
           }),
           this.getIcon(),
-          h('path', {
-            d: `M ${30 - width / 2} ${1 -height / 2 } l 0 28`,
-            stroke: 'blue',
-            strokeOpacity: 0.1,
-            strokeWidth: 1
-          })
+        //   h('path', {
+        //     d: `M ${30 - width / 2} ${1 -height / 2 } l 0 28`,
+        //     stroke: 'blue',
+        //     strokeOpacity: 0.1,
+        //     strokeWidth: 1
+        //   })
         ])
       ]
     )

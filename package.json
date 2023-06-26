@@ -8,9 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@logicflow/core": "^1.1.23",
-    "@logicflow/extension": "^1.1.23",
+    "@logicflow/core": "^1.2.8",
+    "@logicflow/extension": "^1.2.8",
+    "axios": "^1.4.0",
     "element-plus": "^2.0.4",
+    "ids": "^1.0.0",
     "vue": "^3.2.25"
   },
   "devDependencies": {

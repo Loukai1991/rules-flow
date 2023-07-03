@@ -1,5 +1,7 @@
 <template>
     <div class="demo-collapse">
+      <el-tabs v-model="tabActiveName" class="demo-tabs" tab-position="left">
+    <el-tab-pane label="工具箱" name="actions">
       <el-scrollbar max-height="1000px">
         <el-collapse v-model="activeNames">
         <el-collapse-item title="基础活动" name="event" >
@@ -164,6 +166,12 @@
         </el-collapse-item>
       </el-collapse>
     </el-scrollbar>
+    </el-tab-pane>
+    <el-tab-pane label="自定义工具" name="custom actions">Config</el-tab-pane>
+    <el-tab-pane label="自定义java action" name="custom java actions">Role</el-tab-pane>
+    <el-tab-pane label="自定义规则表达式" name="custom expression rules">Task</el-tab-pane>
+  </el-tabs>
+
      
     </div>
   </template>
@@ -173,6 +181,9 @@
   
   import { ref } from 'vue'
   
+  const tabActiveName = ref('actions')
+
+
   const props = defineProps({
     lf: {
       type: LogicFlow,
@@ -394,7 +405,7 @@
   </script>
   <style scoped>
   .demo-collapse {
-    width: 150px;
+    width: 350px;
     position:absolute;
     left:0;
     top:0;

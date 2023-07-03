@@ -3,15 +3,8 @@ import BaseReactNode from "../BaseRectNode"
 
 class EditInstanceNode extends BaseReactNode.view {
   getIcon () {
-    const {
-      width,
-      height,
-    } = this.props.model;
     return h('image', {
-      width: 30,
-      height: 30,
-      x: - width / 2,
-      y: - height / 2,
+      ...this.getIconBaseAttrs(),
       href: 'images/fetch.svg'
     })
   }

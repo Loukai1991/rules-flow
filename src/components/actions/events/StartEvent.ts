@@ -29,6 +29,7 @@ class StartEventModel extends BaseNode.model {
    initNodeData(data) {
     super.initNodeData(data)
     this.defaultFill = '#67c23a';
+    // this.properties.isLocked = true;
   }
   getConnectedTargetRules() {
     const rules = super.getConnectedTargetRules();

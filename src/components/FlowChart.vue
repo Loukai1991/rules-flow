@@ -30,6 +30,17 @@
         @submit="handleSaveProperty"
       ></PropertyPanel>
     </el-dialog>
+    <el-dialog
+      v-model="dialogCustomJavaActionVisible"
+      title="自定义java action"
+      width="600px"
+    >
+      <CustomJavaAction
+        v-if="dialogCustomJavaActionVisible"
+        :editActionData="editActionData"
+        @submit="handleSaveProperty"
+      ></CustomJavaAction>
+    </el-dialog>
   </div>
 </template>
 
@@ -37,7 +48,7 @@
 import { ref, onMounted, reactive } from "vue";
 import LogicFlow from "@logicflow/core";
 import "@logicflow/core/dist/style/index.css";
-import { Group } from "@logicflow/extension";
+import { SelectionSelect, Group, Menu } from "@logicflow/extension";
 import "@logicflow/extension/lib/style/index.css";
 
 import NodeRedExtension from "./node-red/index";
@@ -47,10 +58,16 @@ import Palette from "./palette/Index.vue";
 import { saveFlow, submitFlow } from "@/api/index.js";
 import "./node-red/style.css";
 import PropertyPanel from "./property-panel/Index.vue";
+import CustomJavaAction from './custom/JavaAction.vue'
+import { ContextMenu } from "./context-menu";
+import SetContextPad from "./setContextPad";
+import SetMenu from './setMenu'
 const container = ref();
 const lf = ref(null);
-const currentNode = ref(null);
+const currentNode = ref({});
+const editActionData = ref({});
 const dialogPropertyFormVisible = ref(false);
+const dialogCustomJavaActionVisible = ref(false);
 const dialogPropertyTitle = ref("");
 onMounted(() => {
   lf.value = new LogicFlow({
@@ -63,15 +80,32 @@ onMounted(() => {
         color: "#eeeeee",
       },
     },
+    overlapMode: 1,
+    autoWrap: true,
+    metaKeyMultipleSelected: true,
     // adjustEdge: false,
-    hoverOutline: false,
+    // hoverOutline: false,
     edgeSelectedOutline: false,
+    stopMoveGraph: true,
     keyboard: {
       enabled: true,
     },
     // keyboard: true,
-    plugins: [ActionsExtension, NodeRedExtension, Group],
+    plugins: [
+      ActionsExtension,
+      NodeRedExtension,
+      Group,
+      ContextMenu,
+      SelectionSelect,
+      Menu,
+    ],
   });
+  SetContextPad(lf.value, {
+    togglePropertyPanel,
+    setCurrentNode,
+    setPropertyTitle,
+  });
+  SetMenu(lf.value, {toggleCustomJavaActionDialogVisible})
   lf.value.render({
     nodes: [
       {
@@ -209,16 +243,17 @@ onMounted(() => {
       },
     ],
   });
-  lf.value.on("node:dbclick", ({ data }) => {
-    console.log("dbclick", data);
-    currentNode.value = data;
-    if (data.properties.hasCustomProperty) {
-      dialogPropertyFormVisible.value = true;
-      dialogPropertyTitle.value = data.type;
-    }
-    // debugger
-    // dialogPropertyFormTitle = `设置${data.properties.templateCnName}`;
-  });
+  // lf.value.on("node:dbclick", ({ data }) => {
+  //   console.log("dbclick", data);
+  //   currentNode.value = data;
+  //   if (data.properties.hasCustomProperty) {
+  //     togglePropertyPanel()
+  //     // dialogPropertyFormVisible.value = true;
+  //     dialogPropertyTitle.value = data.type;
+  //   }
+  //   // debugger
+  //   // dialogPropertyFormTitle = `设置${data.properties.templateCnName}`;
+  // });
 
   lf.value.on("node-red:start", () => {
     // todo: 让流程跑起来
@@ -237,6 +272,8 @@ onMounted(() => {
     currentNode.value = null;
   });
 });
+const setCurrentNode = (data) => (currentNode.value = data);
+const setPropertyTitle = (title) => (dialogPropertyTitle.value = title);
 const changeStyle = (style) => {
   console.log("what style", style);
   console.log("currentNode.value", currentNode.value);
@@ -258,8 +295,12 @@ const updateProperty = (id: string, data: any) => {
 };
 const handleSaveProperty = (id, data) => {
   updateProperty(id, data);
-  dialogPropertyFormVisible.value = false;
+  togglePropertyPanel();
+  // dialogPropertyFormVisible.value = false;
 };
+const togglePropertyPanel = () =>
+  (dialogPropertyFormVisible.value = !dialogPropertyFormVisible.value);
+  const toggleCustomJavaActionDialogVisible = () => (dialogCustomJavaActionVisible.value = !dialogCustomJavaActionVisible.value);
 //流程图数据
 const showLoadDataInput = ref(false);
 const loadedData = ref("");

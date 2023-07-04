@@ -1,4 +1,4 @@
-const setContextPad = (lf, {togglePropertyPanel, setCurrentNode, setPropertyTitle}) => {
+const setContextPad = (lf, {toggleDialogVisible, setCurrentNode, setPropertyTitle}) => {
   const userConfig = {
     type: "bpmn:userTask",
     label: "用户任务",
@@ -43,7 +43,7 @@ const setContextPad = (lf, {togglePropertyPanel, setCurrentNode, setPropertyTitl
     callback: (data) => {
       setCurrentNode(data);
       setPropertyTitle(data?.type)
-      togglePropertyPanel();
+      toggleDialogVisible('propertyPanelDialog');
       // lf.deleteElement(data.id);
       // console.log('lf', lf.extension)
       // debugger

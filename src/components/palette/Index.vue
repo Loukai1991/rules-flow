@@ -3,168 +3,7 @@
       <el-tabs v-model="tabActiveName" class="demo-tabs" tab-position="left">
     <el-tab-pane label="工具箱" name="actions">
       <el-scrollbar max-height="1000px">
-        <el-collapse v-model="activeNames">
-        <el-collapse-item title="基础活动" name="event" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in baseNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="决策活动" name="decision" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in decisionNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="对象活动" name="object" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in objectNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="列表活动" name="list" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in listNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="调用活动" name="call" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in callNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="变量活动" name="variable" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in variableNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="集成活动" name="integration" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in integrationNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="日志活动" name="log" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in logNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="文件活动" name="file" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in fileNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="自定义活动" name="custom" >
-          <div
-            class="red-ui-palette-node ui-draggable ui-draggable-handle"
-            @mousedown="startDrag(item)"
-            v-for="(item, index) in customNodes"
-            :key="index"
-            :style="{ backgroundColor: item.background }"
-          >
-            <div class="red-ui-palette-label">{{item.text}}</div>
-            <div class="red-ui-palette-icon-container">
-              <div class="red-ui-palette-icon" :style="{ backgroundImage: `url(${item.icon})`}"></div>
-            </div>
-            <div class="red-ui-palette-port red-ui-palette-port-input"></div>
-            <div class="red-ui-palette-port red-ui-palette-port-output"></div>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
+        <ToolBox :lf="lf"></ToolBox>
     </el-scrollbar>
     </el-tab-pane>
     <el-tab-pane label="自定义工具" name="custom actions">Config</el-tab-pane>
@@ -178,7 +17,10 @@
   
   <script lang="ts" setup>
   import LogicFlow from "@logicflow/core"
-  
+  import ToolBox from "./ToolBox.vue";
+  import CustomToolBox from "./CustomToolBox.vue";
+  import CustomJavaActions from "./CustomJavaActions.vue";
+  import CustomRules from "./CustomRules.vue";
   import { ref } from 'vue'
   
   const tabActiveName = ref('actions')

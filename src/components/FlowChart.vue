@@ -20,27 +20,21 @@
     ></Setting>
     <palette v-if="lf" :lf="lf"></palette>
     <el-dialog
-      v-model="dialogPropertyFormVisible"
+      v-model="visible.propertyPanelDialog"
       :title="dialogPropertyTitle"
       width="600px"
     >
       <PropertyPanel
-        v-if="dialogPropertyFormVisible"
+        v-if="visible.propertyPanelDialog"
         :nodeData="currentNode"
         @submit="handleSaveProperty"
       ></PropertyPanel>
     </el-dialog>
-    <el-dialog
-      v-model="dialogCustomJavaActionVisible"
-      title="自定义java action"
-      width="600px"
-    >
-      <CustomJavaAction
-        v-if="dialogCustomJavaActionVisible"
-        :editActionData="editActionData"
-        @submit="handleSaveProperty"
-      ></CustomJavaAction>
-    </el-dialog>
+    <CustomJavaAction
+      v-model="visible.customJavaActionDialog"
+      :editData="editActionData"
+    ></CustomJavaAction>
+    <CustomRule v-model="visible.customRuleDialog"> </CustomRule>
   </div>
 </template>
 
@@ -58,17 +52,22 @@ import Palette from "./palette/Index.vue";
 import { saveFlow, submitFlow } from "@/api/index.js";
 import "./node-red/style.css";
 import PropertyPanel from "./property-panel/Index.vue";
-import CustomJavaAction from './custom/JavaAction.vue'
+import CustomJavaAction from "./custom/JavaAction.vue";
+import CustomRule from "./custom/ExpressionRule.vue";
 import { ContextMenu } from "./context-menu";
 import SetContextPad from "./setContextPad";
-import SetMenu from './setMenu'
+import SetMenu from "./setMenu";
 const container = ref();
 const lf = ref(null);
 const currentNode = ref({});
 const editActionData = ref({});
-const dialogPropertyFormVisible = ref(false);
-const dialogCustomJavaActionVisible = ref(false);
 const dialogPropertyTitle = ref("");
+const visible = ref({
+  propertyPanelDialog: false,
+  customJavaActionDialog: false,
+  customRuleDialog: false,
+});
+// const javaActionForm = ref()
 onMounted(() => {
   lf.value = new LogicFlow({
     container: container.value,
@@ -101,11 +100,11 @@ onMounted(() => {
     ],
   });
   SetContextPad(lf.value, {
-    togglePropertyPanel,
+    toggleDialogVisible,
     setCurrentNode,
     setPropertyTitle,
   });
-  SetMenu(lf.value, {toggleCustomJavaActionDialogVisible})
+  SetMenu(lf.value, { toggleDialogVisible });
   lf.value.render({
     nodes: [
       {
@@ -243,27 +242,7 @@ onMounted(() => {
       },
     ],
   });
-  // lf.value.on("node:dbclick", ({ data }) => {
-  //   console.log("dbclick", data);
-  //   currentNode.value = data;
-  //   if (data.properties.hasCustomProperty) {
-  //     togglePropertyPanel()
-  //     // dialogPropertyFormVisible.value = true;
-  //     dialogPropertyTitle.value = data.type;
-  //   }
-  //   // debugger
-  //   // dialogPropertyFormTitle = `设置${data.properties.templateCnName}`;
-  // });
 
-  lf.value.on("node-red:start", () => {
-    // todo: 让流程跑起来
-    console.log("我要开始执行流程了");
-  });
-  lf.value.on("vue-node:click", (data) => {
-    lf.value.setProperties(data.id, {
-      t: ++data.val,
-    });
-  });
   lf.value.on("node:click", ({ data }) => {
     currentNode.value = data;
   });
@@ -295,12 +274,10 @@ const updateProperty = (id: string, data: any) => {
 };
 const handleSaveProperty = (id, data) => {
   updateProperty(id, data);
-  togglePropertyPanel();
-  // dialogPropertyFormVisible.value = false;
+  toggleDialogVisible("propertyPanelDialog");
 };
-const togglePropertyPanel = () =>
-  (dialogPropertyFormVisible.value = !dialogPropertyFormVisible.value);
-  const toggleCustomJavaActionDialogVisible = () => (dialogCustomJavaActionVisible.value = !dialogCustomJavaActionVisible.value);
+const toggleDialogVisible = (dialogName) =>
+  (visible.value[dialogName] = !visible.value[dialogName]);
 //流程图数据
 const showLoadDataInput = ref(false);
 const loadedData = ref("");

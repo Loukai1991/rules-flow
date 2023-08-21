@@ -1,0 +1,8 @@
+export { default as TagsView } from "./tags-view/index.vue"
+export { default as AppMain } from "./AppMain.vue"
+export { default as SideBar } from "./side-bar/index.vue"
+export { default as ControlPanel } from "./control-panel/index.vue"
+export { default as Palette } from "./palette/index.vue"
+export { default as PropertyPanel} from "./property-panel/index.vue"
+export { default as Logo } from "./logo/index.vue"
+export { default as RightMenu } from "./header-right-menu/index.vue"

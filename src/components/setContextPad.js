@@ -1,4 +1,7 @@
-const setContextPad = (lf, {toggleDialogVisible, setCurrentNode, setPropertyTitle}) => {
+import { useFlowStore } from '@/store'
+const flowStore = useFlowStore();
+
+const setContextPad = (lf) => {
   const userConfig = {
     type: "bpmn:userTask",
     label: "用户任务",
@@ -29,7 +32,7 @@ const setContextPad = (lf, {toggleDialogVisible, setCurrentNode, setPropertyTitl
   };
   const deleteConfig = {
     icon:
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAUpJREFUWEftVzuywjAMlKgDPV2g4RYPuAnfDs7w4AzQ8b0Jn1vQQDp6SI0YFwFPSMC2EiYZnDLZldYrybERGI/XLs4Aofc2BMHcXV37pmnQlOh1SwMgmijxEYfu4jJVwoZARgKPXeevQLjTSXhDqlcX/l6HI7APgaeOM0LCulIAhDIA1JSwT9ABCM4qHELaVZb+6FUg4L9KgLQxBDTOqUDVEqdsYWSJU85pHN5oio2zGRDzK/DUchpYwI3BorUpdKNmZe1vo4ixDlqBkl2JOCiCaNfuDUFun0QEustrogPldYoU6P9dgWKQ5CoGkxj3XsZ+xcG4JOEdIKo9rEBRLuugfKIOb1mcPuJwwzqUf3U6jW4FCps5LnC4tsRc962D1sGgBziTyOHaHsxUD2b+wMq5RH3lwJopgZm/dnLc+sRN5Nr5KQnne64F3gEyDFZHJCakvQAAAABJRU5ErkJggg==",
+      "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNjg5MDU5NTUxMzIxIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjM4NzUiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTY5MS4xNTczMzMgMjYwLjgyMTMzM2gxNzYuOTM4NjY3YzE1LjQwMjY2NyAwIDI3LjkwNCAxMS45MDQgMjcuOTA0IDI2LjUzODY2NyAwIDE0LjYzNDY2Ny0xMi41MDEzMzMgMjYuNTM4NjY3LTI3LjkwNCAyNi41Mzg2NjdoLTY1LjA2NjY2N3Y0NjEuNDRjMCA0Mi44MzczMzMtMzUuNDEzMzMzIDc3Ljk5NDY2Ny03OS43NDQgNzcuOTk0NjY2SDM0My4zODEzMzNjLTQ0LjMzMDY2NyAwLTc5Ljc0NC0zNS4xNTczMzMtNzkuNzQ0LTc3Ljk5NDY2NlYzMTMuODk4NjY3SDE5OC41NzA2NjdjLTE1LjQwMjY2NyAwLTI3LjkwNC0xMS45MDQtMjcuOTA0LTI2LjUzODY2NyAwLTE0LjYzNDY2NyAxMi41MDEzMzMtMjYuNTM4NjY3IDI3LjkwNC0yNi41Mzg2NjdoMTk1LjU0MTMzM0MzOTguOTMzMzMzIDE4Ni4xNTQ2NjcgNDY0IDEyOCA1NDIuNTkyIDEyOGM3OC42NzczMzMgMCAxNDMuNzQ0IDU4LjE5NzMzMyAxNDguNTY1MzMzIDEzMi44MjEzMzN6IG0tNTUuOTc4NjY2IDBjLTQuNzc4NjY3LTQ1LjE4NC00NC44LTc5LjU3MzMzMy05Mi41ODY2NjctNzkuNTczMzMzLTQ3LjcwMTMzMyAwLTg3LjcyMjY2NyAzNC4zODkzMzMtOTIuNTAxMzMzIDc5LjU3MzMzM2gxODUuMDg4eiBtMTEyLjA0MjY2NiA1My4wNzczMzRIMzE5LjQ0NTMzM3Y0NjEuNDRjMCAxNC4wMzczMzMgMTAuOTY1MzMzIDI0LjkxNzMzMyAyMy44OTMzMzQgMjQuOTE3MzMzaDM3OS45NDY2NjZjMTIuOTI4IDAgMjMuODkzMzMzLTEwLjg4IDIzLjg5MzMzNC0yNC45MTczMzNWMzEzLjg5ODY2N3pNNDEyLjQ1ODY2NyA0MjUuNzcwNjY3YzAtMTQuNjc3MzMzIDEyLjQ1ODY2Ny0yNi41Mzg2NjcgMjcuOTA0LTI2LjUzODY2NyAxNS4zNiAwIDI3Ljg2MTMzMyAxMS44NjEzMzMgMjcuODYxMzMzIDI2LjUzODY2N3YyNTcuNTM2YzAgMTQuNjc3MzMzLTEyLjQ1ODY2NyAyNi41Mzg2NjctMjcuODYxMzMzIDI2LjUzODY2Ni0xNS40NDUzMzMgMC0yNy45MDQtMTEuODYxMzMzLTI3LjkwNC0yNi41Mzg2NjZWNDI1LjgxMzMzM3ogbTE4NS45ODQgMGMwLTE0LjY3NzMzMyAxMi40NTg2NjctMjYuNTM4NjY3IDI3Ljg2MTMzMy0yNi41Mzg2NjcgMTUuNDQ1MzMzIDAgMjcuOTA0IDExLjg2MTMzMyAyNy45MDQgMjYuNTM4NjY3djI1Ny41MzZjMCAxNC42NzczMzMtMTIuNDU4NjY3IDI2LjUzODY2Ny0yNy45MDQgMjYuNTM4NjY2LTE1LjM2IDAtMjcuODYxMzMzLTExLjg2MTMzMy0yNy44NjEzMzMtMjYuNTM4NjY2VjQyNS44MTMzMzN6IiBmaWxsPSIjMDAwMDAwIiBwLWlkPSIzODc2Ij48L3BhdGg+PC9zdmc+",
     callback: (data) => {
       lf.deleteElement(data.id);
       console.log('lf', lf.extension)
@@ -37,21 +40,8 @@ const setContextPad = (lf, {toggleDialogVisible, setCurrentNode, setPropertyTitl
       lf.extension.contextMenu.hideContextMenu();
     }
   };
-  const editConfig = {
-    icon:
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAUpJREFUWEftVzuywjAMlKgDPV2g4RYPuAnfDs7w4AzQ8b0Jn1vQQDp6SI0YFwFPSMC2EiYZnDLZldYrybERGI/XLs4Aofc2BMHcXV37pmnQlOh1SwMgmijxEYfu4jJVwoZARgKPXeevQLjTSXhDqlcX/l6HI7APgaeOM0LCulIAhDIA1JSwT9ABCM4qHELaVZb+6FUg4L9KgLQxBDTOqUDVEqdsYWSJU85pHN5oio2zGRDzK/DUchpYwI3BorUpdKNmZe1vo4ixDlqBkl2JOCiCaNfuDUFun0QEustrogPldYoU6P9dgWKQ5CoGkxj3XsZ+xcG4JOEdIKo9rEBRLuugfKIOb1mcPuJwwzqUf3U6jW4FCps5LnC4tsRc962D1sGgBziTyOHaHsxUD2b+wMq5RH3lwJopgZm/dnLc+sRN5Nr5KQnne64F3gEyDFZHJCakvQAAAABJRU5ErkJggg==",
-    callback: (data) => {
-      setCurrentNode(data);
-      setPropertyTitle(data?.type)
-      toggleDialogVisible('propertyPanelDialog');
-      // lf.deleteElement(data.id);
-      // console.log('lf', lf.extension)
-      // debugger
-      // lf.extension.contextMenu.hideContextMenu();
-    }
-  }
   //common 
-  lf.extension.contextMenu.setContextMenuItems([deleteConfig, editConfig]);
+  lf.extension.contextMenu.setContextMenuItems([deleteConfig]);
   //specific
   lf.extension.contextMenu.setContextMenuByType("bpmn:startEvent", [
     userConfig,

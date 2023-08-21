@@ -9,17 +9,32 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
-    "@logicflow/core": "^1.2.8",
-    "@logicflow/extension": "^1.2.8",
+    "@logicflow/core": "^1.2.10",
+    "@logicflow/extension": "^1.2.10",
+    "@logicflow/layout": "^1.2.0-alpha.16",
+    "@types/lodash": "^4.14.195",
+    "@types/lodash-es": "^4.17.8",
+    "@vueuse/core": "^10.2.0",
     "axios": "^1.4.0",
-    "element-plus": "^2.0.4",
+    "element-plus": "2.3.6",
     "ids": "^1.0.0",
-    "vue": "^3.2.25"
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.3",
+    "path-browserify": "^1.0.1",
+    "pinia": "^2.1.4",
+    "sass": "^1.63.6",
+    "vite": "^4.4.7",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue": "3.3.4",
+    "vue-json-pretty": "^2.2.4",
+    "vue-router": "4.2.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "mockjs": "^1.1.0",
     "unplugin-auto-import": "^0.6.1",
-    "unplugin-vue-components": "^0.17.21",
-    "vite": "^2.8.0"
+    "unplugin-vue-components": "^0.17.21"
   }
 }
